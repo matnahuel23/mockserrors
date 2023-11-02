@@ -1,7 +1,7 @@
 const { generateUser } = require ("../../utils/faker.js")
 const UserDTO = require ("../dtos/userDTOS.js")
 const CustomError = require ("../../errors/CustomError.js")
-const EErrors = require ("../../errors/enums.js")
+const { EErrors }= require ("../../errors/enums.js")
 const { generateUserErrorInfo } = require ("../../errors/Info/infoUser.js")
 
 const users = []
@@ -20,7 +20,7 @@ createUser = async (req, res) => {
     if (!first_name || !last_name || !sex || !email || !job) {
         CustomError.createError({
             name:"Error en la creación de usuario",
-            cause:generateUserErrorInfo ({first_name, last_name, sex, email, job}),
+            cause:generateUserErrorInfo({first_name, last_name, sex, email, job}),
             message:"Error intentando crear el usuario",
             code:EErrors.INVALID_TYPES_ERROR
         })

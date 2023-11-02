@@ -1,7 +1,7 @@
 const { generateProduct } = require ("../../utils/faker.js")
 const ProductDTO = require ("../dtos/productsDTOS.js")
 const CustomError = require ("../../errors/CustomError.js")
-const EErrors = require ("../../errors/enums.js")
+const { EErrors }= require ("../../errors/enums.js")
 const { generateProductErrorInfo } = require ("../../errors/Info/infoProduct.js")
 
 const products = []
