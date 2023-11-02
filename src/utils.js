@@ -1,8 +1,8 @@
-import { faker } from "@faker-js/faker"
+const { faker } = require ("@faker-js/faker")
 
-export const generateUser = () => {
+const generateUser = () => {
     return {
-        name: faker.person.firstName(),
+        first_name: faker.person.firstName(),
         last_name: faker.person.lastName(),
         sex: faker.person.sex(),
         email: faker.internet.email(),
@@ -10,11 +10,12 @@ export const generateUser = () => {
     }
 }
 
-export const generateProduct = () => {
+const generateProduct = () => {
     return {
         title: faker.commerce.product(),
-        description: faker.commerce.productDescription()
+        description: faker.commerce.productDescription(),
+        price: faker.commerce.price({ min: 1, max: 1000, dec: 0 })
     }
 }
 
-export default generateUser
+module.exports = { generateUser, generateProduct }

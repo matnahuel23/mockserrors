@@ -1,13 +1,14 @@
-import express from 'express'
-import usersRouter from './routes/users.js'
-import productsRouter from './routes/products.js'
+const express = require ('express')
+const usersRouter = require ('./routes/users.router.js')
+const productsRouter = require ('./routes/products.router.js')
 
 
 const app = express()
 const PORT = 8080
 
-app.use("/api/users", usersRouter)
-app.use("/api/products", productsRouter)
+app.use(express.json())
+app.use("/mockingusers", usersRouter.router)
+app.use("/mockingproducts", productsRouter.router)
 
 
 app.listen(PORT, () => {
