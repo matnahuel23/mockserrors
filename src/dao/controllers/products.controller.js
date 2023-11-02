@@ -1,29 +1,42 @@
-const { generateProduct } = require ("../../utils.js")
+const { generateProduct } = require ("../../utils/faker.js")
 const ProductDTO = require ("../dtos/productsDTOS.js")
+const CustomError = require ("../../errors/CustomError.js")
+const EErrors = require ("../../errors/enums.js")
+const { generateProductErrorInfo } = require ("../../errors/Info/infoProduct.js")
+
+const products = []
 
 getProducts = async (req, res) => {
-    let products = []
     for (let i = 0; i < 50; i++) {
-        products.push(generateProduct())
+        const newProduct = generateProduct()
+        newProduct.id = i+1
+        products.push(newProduct)
     }
-
     res.send({ status: "success", payload: products })
 }
 
 createProduct = async (req, res) => {
-        products = []
-        try {
-            let { title, description, price} = req.body;
-            let product = new ProductDTO({title, description, price})
-            if (!title || !description || !price) {
-                return res.status(400).send({ status: "error", error: 'Todos los campos obligatorios deben ser proporcionados.' });
-            }
-            // Agregar el producto en la base de datos
-            let result = products.push(product)
-            res.send({ result: "success", payload: result });
-        } catch (error) {
-            res.status(500).send({ status: "error", error: 'Error al agregar el producto. Detalles: ' + error.message });
-        }
+    const { title, description, price} = req.body;
+    if (!title || !description || !price) {
+        CustomError.createError({
+            name:"Error en la creación de producto",
+            cause:generateProductErrorInfo({title,description,price}),
+            message:"Error intentando crear el producto",
+            code:EErrors.INVALID_TYPES_ERROR
+        })
+    }
+    const product = new ProductDTO({
+        title, 
+        description, 
+        price
+    })
+    if (products.length===0){
+        product.id = 1
+    } else {
+        product.id = products[products.length-1].id+1
+    }
+    products.push(product)
+    res.send({ result: "success", payload: products });
 }
 
 module.exports = { getProducts, createProduct }

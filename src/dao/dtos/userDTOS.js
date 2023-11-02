@@ -5,5 +5,6 @@ module.exports = class userDTO {
         this.sex = user.sex
         this.email = user.email,
         this.job = user.job
+        this.id = user.id
     }
 }
